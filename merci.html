@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NYVEX - Merci pour votre commande</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Outfit:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        .thank-you-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 20px 60px;
+            background: var(--cream);
+        }
+        
+        .thank-you-container {
+            max-width: 600px;
+            text-align: center;
+            background: var(--secondary);
+            padding: 60px 40px;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .thank-you-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            animation: scaleIn 0.5s ease-out;
+        }
+        
+        .thank-you-icon svg {
+            width: 50px;
+            height: 50px;
+            color: white;
+            animation: checkmark 0.5s ease-out 0.3s both;
+        }
+        
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes checkmark {
+            from {
+                stroke-dashoffset: 50;
+            }
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+        
+        .thank-you-container h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        
+        .thank-you-container .subtitle {
+            font-size: 1.1rem;
+            color: var(--dark-gray);
+            margin-bottom: 30px;
+        }
+        
+        .order-info {
+            background: var(--cream);
+            padding: 25px;
+            border-radius: var(--radius-lg);
+            margin-bottom: 30px;
+            text-align: left;
+        }
+        
+        .order-info h3 {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            margin-bottom: 15px;
+        }
+        
+        .order-info p {
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+        
+        .order-info p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .order-info strong {
+            color: var(--primary);
+        }
+        
+        .thank-you-features {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 35px;
+            flex-wrap: wrap;
+        }
+        
+        .thank-you-feature {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+        }
+        
+        .thank-you-feature svg {
+            width: 18px;
+            height: 18px;
+            color: var(--accent);
+        }
+        
+        .thank-you-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .thank-you-actions .btn {
+            padding: 14px 30px;
+            font-size: 0.85rem;
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: var(--secondary);
+        }
+        
+        .contact-note {
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid var(--medium-gray);
+            font-size: 0.85rem;
+            color: var(--dark-gray);
+        }
+        
+        .contact-note a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        
+        .contact-note a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .thank-you-container {
+                padding: 40px 25px;
+            }
+            
+            .thank-you-container h1 {
+                font-size: 1.8rem;
+            }
+            
+            .thank-you-features {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .thank-you-actions {
+                flex-direction: column;
+            }
+            
+            .thank-you-actions .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Announcement Bar -->
+    <div class="announcement-bar">
+        <p>Livraison offerte</p>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">NYVEX</a>
+            <div class="nav-links">
+                <a href="index.html#products">Nos Soins</a>
+                <a href="faq.html">FAQ</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <div class="nav-actions">
+                <button class="menu-toggle" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+        <div class="mobile-menu-content">
+            <a href="index.html#products">Nos Soins</a>
+            <a href="faq.html">FAQ</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </div>
+
+    <!-- Thank You Section -->
+    <section class="thank-you-section">
+        <div class="thank-you-container">
+            <div class="thank-you-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+            </div>
+            
+            <h1>Merci pour votre commande !</h1>
+            <p class="subtitle">Votre paiement a été confirmé avec succès. Vous recevrez un email de confirmation dans quelques instants.</p>
+            
+            <div class="order-info">
+                <h3>Prochaines étapes</h3>
+                <p>📧 <strong>Email de confirmation</strong> envoyé à votre adresse</p>
+                <p>📦 <strong>Préparation</strong> de votre commande sous 24-48h</p>
+                <p>🚚 <strong>Livraison</strong> gratuite à votre domicile</p>
+            </div>
+            
+            <div class="thank-you-features">
+                <div class="thank-you-feature">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                    <span>Paiement sécurisé</span>
+                </div>
+                <div class="thank-you-feature">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="1" y="3" width="15" height="13" rx="2"/>
+                        <path d="M16 8h4l3 3v5a2 2 0 0 1-2 2h-1"/>
+                        <circle cx="5.5" cy="18.5" r="2.5"/>
+                        <circle cx="18.5" cy="18.5" r="2.5"/>
+                    </svg>
+                    <span>Livraison offerte</span>
+                </div>
+                <div class="thank-you-feature">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                        <polyline points="9 22 9 12 15 12 15 22"/>
+                    </svg>
+                    <span>Satisfait ou remboursé</span>
+                </div>
+            </div>
+            
+            <div class="thank-you-actions">
+                <a href="index.html" class="btn btn-primary">Retour à l'accueil</a>
+                <a href="index.html#products" class="btn btn-secondary">Continuer mes achats</a>
+            </div>
+            
+            <div class="contact-note">
+                Une question ? Contactez-nous à <a href="mailto:contact@nyvex.fr">contact@nyvex.fr</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2024 NYVEX. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
