@@ -1,110 +1,146 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <!-- Google Analytics - Enhanced Tracking -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SYKNZEVRV2"></script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-M6S8GFCV');</script>
+    <!-- End Google Tag Manager -->
+    
+    <!-- Advanced Tracking Events -->
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-SYKNZEVRV2', {
-            'send_page_view': true,
-            'cookie_flags': 'SameSite=None;Secure',
-            'custom_map': {
-                'dimension1': 'user_type',
-                'dimension2': 'page_category'
-            }
+        
+        // Identifier le type d'utilisateur
+        const isReturning = sessionStorage.getItem('nyvex_visited');
+        dataLayer.push({
+            'event': 'user_identified',
+            'user_type': isReturning ? 'returning' : 'new',
+            'page_type': 'home',
+            'timestamp': new Date().toISOString()
         });
-
-        // Données utilisateur enrichies
-        gtag('set', 'user_properties', {
-            'user_type': sessionStorage.getItem('returning_user') ? 'returning' : 'new',
-            'page_category': 'home'
-        });
-        sessionStorage.setItem('returning_user', 'true');
-
-        // Tracking du scroll (25%, 50%, 75%, 100%)
-        let scrollMarks = [25, 50, 75, 100];
+        sessionStorage.setItem('nyvex_visited', 'true');
+        
+        // Tracking source de trafic
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('utm_source')) {
+            dataLayer.push({
+                'event': 'campaign_visit',
+                'utm_source': urlParams.get('utm_source'),
+                'utm_medium': urlParams.get('utm_medium'),
+                'utm_campaign': urlParams.get('utm_campaign')
+            });
+        }
+        
+        // Tracking du scroll (10%, 25%, 50%, 75%, 90%, 100%)
+        let scrollMarks = [10, 25, 50, 75, 90, 100];
         let scrollTracked = [];
         window.addEventListener('scroll', function() {
             let scrollPercent = Math.round((window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100);
             scrollMarks.forEach(function(mark) {
                 if (scrollPercent >= mark && !scrollTracked.includes(mark)) {
                     scrollTracked.push(mark);
-                    gtag('event', 'scroll_depth', {
-                        'event_category': 'engagement',
-                        'event_label': mark + '%',
-                        'value': mark
+                    dataLayer.push({
+                        'event': 'scroll_depth',
+                        'scroll_percentage': mark,
+                        'page_type': 'home'
                     });
                 }
             });
         });
-
-        // Temps passé sur la page
+        
+        // Temps passé sur la page (15s, 30s, 60s, 120s, 300s)
         let startTime = Date.now();
-        let timeIntervals = [30, 60, 120, 300]; // secondes
+        let timeIntervals = [15, 30, 60, 120, 300];
         let timeTracked = [];
         setInterval(function() {
             let timeSpent = Math.floor((Date.now() - startTime) / 1000);
             timeIntervals.forEach(function(interval) {
                 if (timeSpent >= interval && !timeTracked.includes(interval)) {
                     timeTracked.push(interval);
-                    gtag('event', 'time_on_page', {
-                        'event_category': 'engagement',
-                        'event_label': interval + ' seconds',
-                        'value': interval
+                    dataLayer.push({
+                        'event': 'time_on_page',
+                        'time_seconds': interval,
+                        'page_type': 'home',
+                        'engagement_level': interval >= 120 ? 'high' : interval >= 60 ? 'medium' : 'low'
                     });
                 }
             });
         }, 5000);
-
-        // Tracking avant fermeture de page
+        
+        // Tracking avant fermeture
         window.addEventListener('beforeunload', function() {
             let totalTime = Math.floor((Date.now() - startTime) / 1000);
-            gtag('event', 'page_exit', {
-                'event_category': 'engagement',
-                'event_label': 'time_spent',
-                'value': totalTime
+            dataLayer.push({
+                'event': 'page_exit',
+                'time_spent_seconds': totalTime,
+                'max_scroll': Math.max(...scrollTracked) || 0,
+                'page_type': 'home'
             });
         });
-
-        // Tracking des clics sur liens/boutons
+        
         document.addEventListener('DOMContentLoaded', function() {
-            // Boutons CTA
-            document.querySelectorAll('.btn, .cta-button, [class*="btn"]').forEach(function(btn) {
-                btn.addEventListener('click', function() {
-                    gtag('event', 'cta_click', {
-                        'event_category': 'engagement',
-                        'event_label': this.textContent.trim().substring(0, 50),
-                        'link_url': this.href || 'button'
+            // Tracking clics sur boutons CTA
+            document.querySelectorAll('.btn, .cta-button, [class*="btn"], a[href*="product"]').forEach(function(btn) {
+                btn.addEventListener('click', function(e) {
+                    dataLayer.push({
+                        'event': 'cta_click',
+                        'click_text': this.textContent.trim().substring(0, 50),
+                        'click_url': this.href || 'button',
+                        'click_location': 'home',
+                        'element_type': this.tagName.toLowerCase()
                     });
                 });
             });
-
-            // Liens produits
+            
+            // Tracking clics sur produits
             document.querySelectorAll('a[href*="product"]').forEach(function(link) {
                 link.addEventListener('click', function() {
-                    gtag('event', 'product_click', {
-                        'event_category': 'ecommerce',
-                        'event_label': this.textContent.trim() || this.href
+                    dataLayer.push({
+                        'event': 'product_interest',
+                        'product_clicked': this.href.includes('product-2') ? 'Vita C Collagen Cream' : 'PDRN Capsule Cream',
+                        'click_source': 'home'
                     });
                 });
             });
-
-            // Liens externes
+            
+            // Tracking liens externes
             document.querySelectorAll('a[href^="http"]').forEach(function(link) {
                 if (!link.href.includes(window.location.hostname)) {
                     link.addEventListener('click', function() {
-                        gtag('event', 'outbound_click', {
-                            'event_category': 'outbound',
-                            'event_label': this.href
+                        dataLayer.push({
+                            'event': 'outbound_click',
+                            'outbound_url': this.href
                         });
                     });
                 }
             });
+            
+            // Tracking visibilité des sections (quelles sections voient les utilisateurs)
+            const sections = document.querySelectorAll('section, .hero, .products, .testimonials, .about');
+            const sectionObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        dataLayer.push({
+                            'event': 'section_viewed',
+                            'section_name': entry.target.className || entry.target.id || 'unnamed_section'
+                        });
+                    }
+                });
+            }, { threshold: 0.5 });
+            sections.forEach(function(section) { sectionObserver.observe(section); });
+            
+            // Détection appareil et résolution
+            dataLayer.push({
+                'event': 'device_info',
+                'device_type': /Mobile|Android|iPhone/i.test(navigator.userAgent) ? 'mobile' : 'desktop',
+                'screen_width': window.innerWidth,
+                'screen_height': window.innerHeight
+            });
         });
     </script>
-    <!-- End Google Analytics -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>NYVEX - Cosmétiques de Luxe K-Beauty</title>
@@ -122,6 +158,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Outfit:wght@200;300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body class="home-page">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M6S8GFCV"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
     <!-- Announcement Bar -->
     <div class="announcement-bar">
         <p>Livraison offerte</p>

@@ -1,126 +1,161 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <!-- Google Analytics - E-commerce Tracking -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SYKNZEVRV2"></script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-M6S8GFCV');</script>
+    <!-- End Google Tag Manager -->
+    
+    <!-- E-commerce & Behavior Tracking -->
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-SYKNZEVRV2', {
-            'send_page_view': true,
-            'cookie_flags': 'SameSite=None;Secure'
+        
+        // Produit vu (GA4 E-commerce)
+        dataLayer.push({
+            'event': 'view_item',
+            'ecommerce': {
+                'currency': 'EUR',
+                'value': 29.90,
+                'items': [{
+                    'item_id': 'VITAC-001',
+                    'item_name': 'Vita C Collagen Cream',
+                    'item_brand': 'NYVEX',
+                    'item_category': 'Soins Visage',
+                    'item_category2': 'Anti-Rides',
+                    'item_category3': 'Vitamine C',
+                    'price': 29.90,
+                    'quantity': 1
+                }]
+            }
         });
-
-        // Vue produit (GA4 E-commerce)
-        gtag('event', 'view_item', {
-            'currency': 'EUR',
-            'value': 29.90,
-            'items': [{
-                'item_id': 'VITAC-001',
-                'item_name': 'Vita C Collagen Cream',
-                'item_brand': 'NYVEX',
-                'item_category': 'Soins Visage',
-                'item_category2': 'Anti-Rides',
-                'price': 29.90,
-                'quantity': 1
-            }]
-        });
-
-        sessionStorage.setItem('returning_user', 'true');
-
-        // Tracking du scroll
-        let scrollMarks = [25, 50, 75, 100];
+        
+        sessionStorage.setItem('nyvex_visited', 'true');
+        sessionStorage.setItem('last_product_viewed', 'Vita C Collagen Cream');
+        
+        // Tracking scroll
+        let scrollMarks = [10, 25, 50, 75, 90, 100];
         let scrollTracked = [];
         window.addEventListener('scroll', function() {
             let scrollPercent = Math.round((window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100);
             scrollMarks.forEach(function(mark) {
                 if (scrollPercent >= mark && !scrollTracked.includes(mark)) {
                     scrollTracked.push(mark);
-                    gtag('event', 'scroll_depth', {
-                        'event_category': 'product_engagement',
-                        'event_label': mark + '%',
-                        'value': mark
+                    dataLayer.push({
+                        'event': 'product_scroll',
+                        'scroll_percentage': mark,
+                        'product_name': 'Vita C Collagen Cream'
                     });
                 }
             });
         });
-
+        
         // Temps sur page produit
         let startTime = Date.now();
-        let timeIntervals = [30, 60, 120, 300];
+        let timeIntervals = [15, 30, 60, 120, 180, 300];
         let timeTracked = [];
         setInterval(function() {
             let timeSpent = Math.floor((Date.now() - startTime) / 1000);
             timeIntervals.forEach(function(interval) {
                 if (timeSpent >= interval && !timeTracked.includes(interval)) {
                     timeTracked.push(interval);
-                    gtag('event', 'product_time_spent', {
-                        'event_category': 'product_engagement',
-                        'event_label': interval + ' seconds',
-                        'value': interval
+                    dataLayer.push({
+                        'event': 'product_engagement_time',
+                        'time_seconds': interval,
+                        'product_name': 'Vita C Collagen Cream',
+                        'interest_level': interval >= 120 ? 'very_high' : interval >= 60 ? 'high' : interval >= 30 ? 'medium' : 'low'
                     });
                 }
             });
         }, 5000);
-
+        
         document.addEventListener('DOMContentLoaded', function() {
-            // Tracking ajout au panier
-            document.querySelectorAll('[class*="add-to-cart"], [class*="checkout"], .btn-primary, [onclick*="checkout"]').forEach(function(btn) {
-                btn.addEventListener('click', function() {
-                    gtag('event', 'add_to_cart', {
-                        'currency': 'EUR',
-                        'value': 29.90,
-                        'items': [{
-                            'item_id': 'VITAC-001',
-                            'item_name': 'Vita C Collagen Cream',
-                            'item_brand': 'NYVEX',
-                            'price': 29.90,
-                            'quantity': 1
-                        }]
-                    });
-                    gtag('event', 'begin_checkout', {
-                        'currency': 'EUR',
-                        'value': 29.90,
-                        'items': [{
-                            'item_id': 'VITAC-001',
-                            'item_name': 'Vita C Collagen Cream',
-                            'price': 29.90,
-                            'quantity': 1
-                        }]
-                    });
-                });
-            });
-
-            // Tracking clic sur images produit
-            document.querySelectorAll('.product-image, .gallery img, .thumbnail').forEach(function(img) {
+            // Tracking clics images
+            document.querySelectorAll('.product-image, .gallery img, .thumbnail, [class*="gallery"]').forEach(function(img) {
                 img.addEventListener('click', function() {
-                    gtag('event', 'product_image_click', {
-                        'event_category': 'product_engagement',
-                        'event_label': 'Vita C Collagen Cream'
+                    dataLayer.push({
+                        'event': 'product_image_interaction',
+                        'product_name': 'Vita C Collagen Cream',
+                        'interaction_type': 'image_click'
                     });
                 });
             });
-
-            // Tracking lecture avis
-            let reviewsSection = document.querySelector('[class*="review"], [class*="avis"], #reviews');
-            if (reviewsSection) {
-                let observer = new IntersectionObserver(function(entries) {
-                    entries.forEach(function(entry) {
-                        if (entry.isIntersecting) {
-                            gtag('event', 'view_reviews', {
-                                'event_category': 'product_engagement',
-                                'event_label': 'Vita C Collagen Cream'
-                            });
-                            observer.disconnect();
+            
+            // Tracking ajout au panier / checkout
+            document.querySelectorAll('[class*="add-to-cart"], [class*="checkout"], .btn-primary, [onclick*="checkout"], [href*="checkout"], .buy-btn, [class*="buy"]').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    dataLayer.push({
+                        'event': 'add_to_cart',
+                        'ecommerce': {
+                            'currency': 'EUR',
+                            'value': 29.90,
+                            'items': [{
+                                'item_id': 'VITAC-001',
+                                'item_name': 'Vita C Collagen Cream',
+                                'item_brand': 'NYVEX',
+                                'price': 29.90,
+                                'quantity': 1
+                            }]
+                        }
+                    });
+                    dataLayer.push({
+                        'event': 'begin_checkout',
+                        'ecommerce': {
+                            'currency': 'EUR',
+                            'value': 29.90,
+                            'items': [{
+                                'item_id': 'VITAC-001',
+                                'item_name': 'Vita C Collagen Cream',
+                                'price': 29.90,
+                                'quantity': 1
+                            }]
                         }
                     });
                 });
-                observer.observe(reviewsSection);
+            });
+            
+            // Tracking quantité
+            document.querySelectorAll('[class*="quantity"], select, input[type="number"]').forEach(function(el) {
+                el.addEventListener('change', function() {
+                    dataLayer.push({
+                        'event': 'quantity_changed',
+                        'product_name': 'Vita C Collagen Cream',
+                        'new_quantity': this.value
+                    });
+                });
+            });
+            
+            // Tracking avis
+            let reviewsSection = document.querySelector('[class*="review"], [class*="avis"], [class*="testimonial"], #reviews');
+            if (reviewsSection) {
+                let reviewObserver = new IntersectionObserver(function(entries) {
+                    entries.forEach(function(entry) {
+                        if (entry.isIntersecting) {
+                            dataLayer.push({
+                                'event': 'reviews_viewed',
+                                'product_name': 'Vita C Collagen Cream'
+                            });
+                            reviewObserver.disconnect();
+                        }
+                    });
+                }, { threshold: 0.3 });
+                reviewObserver.observe(reviewsSection);
             }
+            
+            // Exit intent
+            document.addEventListener('mouseout', function(e) {
+                if (e.clientY < 10) {
+                    dataLayer.push({
+                        'event': 'exit_intent',
+                        'product_name': 'Vita C Collagen Cream',
+                        'time_on_page': Math.floor((Date.now() - startTime) / 1000)
+                    });
+                }
+            }, { once: true });
         });
     </script>
-    <!-- End Google Analytics -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>NYVEX - Vita C Collagen Cream | Anti-Rides</title>
@@ -300,6 +335,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Outfit:wght@200;300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body class="product-2-theme">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M6S8GFCV"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
     <!-- Announcement Bar -->
     <div class="announcement-bar">
         <p>Livraison offerte</p>

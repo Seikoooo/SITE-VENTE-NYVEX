@@ -1,32 +1,43 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <!-- Google Analytics - FAQ Tracking -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SYKNZEVRV2"></script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-M6S8GFCV');</script>
+    <!-- End Google Tag Manager -->
+    
+    <!-- FAQ Tracking -->
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-SYKNZEVRV2', {
-            'send_page_view': true,
-            'cookie_flags': 'SameSite=None;Secure'
+        
+        dataLayer.push({
+            'event': 'page_view',
+            'page_type': 'faq',
+            'user_intent': 'information_seeking'
         });
-
-        sessionStorage.setItem('returning_user', 'true');
-
+        
         document.addEventListener('DOMContentLoaded', function() {
-            // Tracking des questions FAQ cliquées
-            document.querySelectorAll('.faq-question, .faq-item, [class*="accordion"]').forEach(function(item) {
+            // Tracking questions FAQ cliquées
+            let questionsViewed = [];
+            document.querySelectorAll('.faq-question, .faq-item, [class*="accordion"], [class*="question"]').forEach(function(item, index) {
                 item.addEventListener('click', function() {
                     let questionText = this.textContent.trim().substring(0, 100);
-                    gtag('event', 'faq_interaction', {
-                        'event_category': 'faq',
-                        'event_label': questionText
+                    if (!questionsViewed.includes(questionText)) {
+                        questionsViewed.push(questionText);
+                    }
+                    dataLayer.push({
+                        'event': 'faq_interaction',
+                        'question_text': questionText,
+                        'question_index': index + 1,
+                        'total_questions_viewed': questionsViewed.length
                     });
                 });
             });
-
-            // Tracking scroll sur FAQ
+            
+            // Tracking scroll FAQ
             let scrollMarks = [25, 50, 75, 100];
             let scrollTracked = [];
             window.addEventListener('scroll', function() {
@@ -34,17 +45,15 @@
                 scrollMarks.forEach(function(mark) {
                     if (scrollPercent >= mark && !scrollTracked.includes(mark)) {
                         scrollTracked.push(mark);
-                        gtag('event', 'scroll_depth', {
-                            'event_category': 'faq_engagement',
-                            'event_label': mark + '%',
-                            'value': mark
+                        dataLayer.push({
+                            'event': 'faq_scroll',
+                            'scroll_percentage': mark
                         });
                     }
                 });
             });
         });
     </script>
-    <!-- End Google Analytics -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FAQ - NYVEX</title>
@@ -66,6 +75,11 @@
     </style>
 </head>
 <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M6S8GFCV"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
     <!-- Announcement Bar -->
     <div class="announcement-bar">
         <p>Livraison offerte</p>

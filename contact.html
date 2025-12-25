@@ -1,72 +1,89 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <!-- Google Analytics - Contact Page Tracking -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SYKNZEVRV2"></script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-M6S8GFCV');</script>
+    <!-- End Google Tag Manager -->
+    
+    <!-- Contact Page Tracking -->
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-SYKNZEVRV2', {
-            'send_page_view': true,
-            'cookie_flags': 'SameSite=None;Secure'
+        
+        dataLayer.push({
+            'event': 'page_view',
+            'page_type': 'contact',
+            'user_intent': 'support_or_question'
         });
-
-        sessionStorage.setItem('returning_user', 'true');
-
+        
         document.addEventListener('DOMContentLoaded', function() {
             // Tracking formulaire de contact
             let contactForm = document.querySelector('form');
             if (contactForm) {
-                // Début de remplissage
                 let formStarted = false;
-                contactForm.querySelectorAll('input, textarea').forEach(function(field) {
+                let fieldsInteracted = [];
+                
+                // Début de remplissage
+                contactForm.querySelectorAll('input, textarea, select').forEach(function(field) {
                     field.addEventListener('focus', function() {
                         if (!formStarted) {
                             formStarted = true;
-                            gtag('event', 'form_start', {
-                                'event_category': 'contact',
-                                'event_label': 'contact_form'
+                            dataLayer.push({
+                                'event': 'form_start',
+                                'form_name': 'contact_form'
+                            });
+                        }
+                        if (!fieldsInteracted.includes(this.name || this.id)) {
+                            fieldsInteracted.push(this.name || this.id);
+                            dataLayer.push({
+                                'event': 'form_field_interaction',
+                                'field_name': this.name || this.id || this.placeholder
                             });
                         }
                     });
                 });
-
-                // Soumission du formulaire
+                
+                // Soumission
                 contactForm.addEventListener('submit', function() {
-                    gtag('event', 'form_submit', {
-                        'event_category': 'contact',
-                        'event_label': 'contact_form'
+                    dataLayer.push({
+                        'event': 'form_submit',
+                        'form_name': 'contact_form',
+                        'fields_completed': fieldsInteracted.length
                     });
-                    gtag('event', 'generate_lead', {
+                    dataLayer.push({
+                        'event': 'generate_lead',
                         'currency': 'EUR',
-                        'value': 10
+                        'value': 10,
+                        'lead_source': 'contact_form'
                     });
                 });
             }
-
-            // Clics sur email/téléphone
+            
+            // Clics email
             document.querySelectorAll('a[href^="mailto:"]').forEach(function(link) {
                 link.addEventListener('click', function() {
-                    gtag('event', 'contact_click', {
-                        'event_category': 'contact',
-                        'event_label': 'email',
-                        'contact_method': 'email'
+                    dataLayer.push({
+                        'event': 'contact_method_click',
+                        'method': 'email',
+                        'email_address': this.href.replace('mailto:', '')
                     });
                 });
             });
+            
+            // Clics téléphone
             document.querySelectorAll('a[href^="tel:"]').forEach(function(link) {
                 link.addEventListener('click', function() {
-                    gtag('event', 'contact_click', {
-                        'event_category': 'contact',
-                        'event_label': 'phone',
-                        'contact_method': 'phone'
+                    dataLayer.push({
+                        'event': 'contact_method_click',
+                        'method': 'phone'
                     });
                 });
             });
         });
     </script>
-    <!-- End Google Analytics -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact - NYVEX</title>
@@ -94,6 +111,11 @@
     </style>
 </head>
 <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M6S8GFCV"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
     <!-- Announcement Bar -->
     <div class="announcement-bar">
         <p>Livraison offerte</p>

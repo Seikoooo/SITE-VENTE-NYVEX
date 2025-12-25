@@ -1,62 +1,76 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <!-- Google Analytics - Conversion Tracking -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-SYKNZEVRV2"></script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-M6S8GFCV');</script>
+    <!-- End Google Tag Manager -->
+    
+    <!-- Conversion & Purchase Tracking -->
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-SYKNZEVRV2', {
-            'send_page_view': true,
-            'cookie_flags': 'SameSite=None;Secure'
-        });
-
-        // Récupérer les paramètres URL pour les détails de commande
         const urlParams = new URLSearchParams(window.location.search);
         const orderId = urlParams.get('order_id') || 'ORDER-' + Date.now();
         const orderValue = parseFloat(urlParams.get('value')) || 34.90;
         const productName = urlParams.get('product') || 'NYVEX Product';
-
-        // Événement d'achat GA4 (Conversion principale)
-        gtag('event', 'purchase', {
+        const itemId = urlParams.get('item_id') || 'NYVEX-PRODUCT';
+        
+        // Événement d'achat GA4 E-commerce
+        dataLayer.push({
+            'event': 'purchase',
+            'ecommerce': {
+                'transaction_id': orderId,
+                'value': orderValue,
+                'currency': 'EUR',
+                'tax': orderValue * 0.20,
+                'shipping': 0,
+                'items': [{
+                    'item_id': itemId,
+                    'item_name': productName,
+                    'item_brand': 'NYVEX',
+                    'item_category': 'Soins Visage',
+                    'price': orderValue,
+                    'quantity': 1
+                }]
+            }
+        });
+        
+        // Conversion complète
+        dataLayer.push({
+            'event': 'conversion_complete',
             'transaction_id': orderId,
             'value': orderValue,
             'currency': 'EUR',
-            'tax': orderValue * 0.20,
-            'shipping': 0,
-            'items': [{
-                'item_id': urlParams.get('item_id') || 'NYVEX-PRODUCT',
-                'item_name': productName,
-                'item_brand': 'NYVEX',
-                'item_category': 'Soins Visage',
-                'price': orderValue,
-                'quantity': 1
-            }]
+            'conversion_type': 'purchase'
         });
-
-        // Événement de conversion générique
-        gtag('event', 'conversion', {
-            'event_category': 'ecommerce',
-            'event_label': 'purchase_complete',
+        
+        // Nouveau client
+        dataLayer.push({
+            'event': 'new_customer',
+            'customer_value': orderValue,
+            'first_purchase_date': new Date().toISOString().split('T')[0],
+            'product_purchased': productName
+        });
+        
+        // Tracking source d'acquisition
+        const utmSource = sessionStorage.getItem('utm_source') || 'direct';
+        dataLayer.push({
+            'event': 'purchase_attribution',
+            'order_id': orderId,
+            'source': utmSource,
             'value': orderValue
         });
-
-        // Marqueur utilisateur converti
-        gtag('set', 'user_properties', {
-            'customer_type': 'buyer',
-            'first_purchase_date': new Date().toISOString().split('T')[0]
-        });
-
-        // Tracking génération de lead (nouveau client)
-        gtag('event', 'generate_lead', {
-            'currency': 'EUR',
-            'value': orderValue
-        });
-
-        console.log('GA4: Purchase event sent - Order:', orderId, 'Value:', orderValue);
+        
+        // Marquer comme client
+        sessionStorage.setItem('nyvex_customer', 'true');
+        sessionStorage.setItem('last_order_id', orderId);
+        sessionStorage.setItem('last_order_value', orderValue);
+        
+        console.log('NYVEX Analytics: Purchase tracked', { orderId, orderValue, productName });
     </script>
-    <!-- End Google Analytics -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NYVEX - Merci pour votre commande</title>
@@ -250,6 +264,11 @@
     </style>
 </head>
 <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M6S8GFCV"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
     <!-- Announcement Bar -->
     <div class="announcement-bar">
         <p>Livraison offerte</p>
