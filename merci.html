@@ -1,6 +1,62 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <!-- Google Analytics - Conversion Tracking -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4NR312F1LS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-4NR312F1LS', {
+            'send_page_view': true,
+            'cookie_flags': 'SameSite=None;Secure'
+        });
+
+        // Récupérer les paramètres URL pour les détails de commande
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderId = urlParams.get('order_id') || 'ORDER-' + Date.now();
+        const orderValue = parseFloat(urlParams.get('value')) || 34.90;
+        const productName = urlParams.get('product') || 'NYVEX Product';
+
+        // Événement d'achat GA4 (Conversion principale)
+        gtag('event', 'purchase', {
+            'transaction_id': orderId,
+            'value': orderValue,
+            'currency': 'EUR',
+            'tax': orderValue * 0.20,
+            'shipping': 0,
+            'items': [{
+                'item_id': urlParams.get('item_id') || 'NYVEX-PRODUCT',
+                'item_name': productName,
+                'item_brand': 'NYVEX',
+                'item_category': 'Soins Visage',
+                'price': orderValue,
+                'quantity': 1
+            }]
+        });
+
+        // Événement de conversion générique
+        gtag('event', 'conversion', {
+            'event_category': 'ecommerce',
+            'event_label': 'purchase_complete',
+            'value': orderValue
+        });
+
+        // Marqueur utilisateur converti
+        gtag('set', 'user_properties', {
+            'customer_type': 'buyer',
+            'first_purchase_date': new Date().toISOString().split('T')[0]
+        });
+
+        // Tracking génération de lead (nouveau client)
+        gtag('event', 'generate_lead', {
+            'currency': 'EUR',
+            'value': orderValue
+        });
+
+        console.log('GA4: Purchase event sent - Order:', orderId, 'Value:', orderValue);
+    </script>
+    <!-- End Google Analytics -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NYVEX - Merci pour votre commande</title>

@@ -1,6 +1,37 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <!-- Google Analytics - Legal Page Tracking -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4NR312F1LS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-4NR312F1LS', {
+            'send_page_view': true,
+            'cookie_flags': 'SameSite=None;Secure'
+        });
+
+        sessionStorage.setItem('returning_user', 'true');
+
+        // Tracking scroll
+        let scrollMarks = [25, 50, 75, 100];
+        let scrollTracked = [];
+        window.addEventListener('scroll', function() {
+            let scrollPercent = Math.round((window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100);
+            scrollMarks.forEach(function(mark) {
+                if (scrollPercent >= mark && !scrollTracked.includes(mark)) {
+                    scrollTracked.push(mark);
+                    gtag('event', 'scroll_depth', {
+                        'event_category': 'info_page',
+                        'event_label': mark + '%',
+                        'page_name': 'livraison'
+                    });
+                }
+            });
+        });
+    </script>
+    <!-- End Google Analytics -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Livraison - NYVEX</title>

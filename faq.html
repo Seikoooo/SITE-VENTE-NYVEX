@@ -1,6 +1,50 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <!-- Google Analytics - FAQ Tracking -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4NR312F1LS"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-4NR312F1LS', {
+            'send_page_view': true,
+            'cookie_flags': 'SameSite=None;Secure'
+        });
+
+        sessionStorage.setItem('returning_user', 'true');
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tracking des questions FAQ cliquées
+            document.querySelectorAll('.faq-question, .faq-item, [class*="accordion"]').forEach(function(item) {
+                item.addEventListener('click', function() {
+                    let questionText = this.textContent.trim().substring(0, 100);
+                    gtag('event', 'faq_interaction', {
+                        'event_category': 'faq',
+                        'event_label': questionText
+                    });
+                });
+            });
+
+            // Tracking scroll sur FAQ
+            let scrollMarks = [25, 50, 75, 100];
+            let scrollTracked = [];
+            window.addEventListener('scroll', function() {
+                let scrollPercent = Math.round((window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100);
+                scrollMarks.forEach(function(mark) {
+                    if (scrollPercent >= mark && !scrollTracked.includes(mark)) {
+                        scrollTracked.push(mark);
+                        gtag('event', 'scroll_depth', {
+                            'event_category': 'faq_engagement',
+                            'event_label': mark + '%',
+                            'value': mark
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+    <!-- End Google Analytics -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FAQ - NYVEX</title>
