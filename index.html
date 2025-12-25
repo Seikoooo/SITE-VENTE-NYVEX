@@ -19,26 +19,21 @@
     
     <!-- Advanced Tracking Events -->
     <script>
-        window.dataLayer = window.dataLayer || [];
-        
         // Identifier le type d'utilisateur
         const isReturning = sessionStorage.getItem('nyvex_visited');
-        dataLayer.push({
-            'event': 'user_identified',
-            'user_type': isReturning ? 'returning' : 'new',
-            'page_type': 'home',
-            'timestamp': new Date().toISOString()
+        gtag('event', 'user_identified', {
+            user_type: isReturning ? 'returning' : 'new',
+            page_type: 'home'
         });
         sessionStorage.setItem('nyvex_visited', 'true');
         
         // Tracking source de trafic
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('utm_source')) {
-            dataLayer.push({
-                'event': 'campaign_visit',
-                'utm_source': urlParams.get('utm_source'),
-                'utm_medium': urlParams.get('utm_medium'),
-                'utm_campaign': urlParams.get('utm_campaign')
+            gtag('event', 'campaign_visit', {
+                utm_source: urlParams.get('utm_source'),
+                utm_medium: urlParams.get('utm_medium'),
+                utm_campaign: urlParams.get('utm_campaign')
             });
         }
         
@@ -50,10 +45,9 @@
             scrollMarks.forEach(function(mark) {
                 if (scrollPercent >= mark && !scrollTracked.includes(mark)) {
                     scrollTracked.push(mark);
-                    dataLayer.push({
-                        'event': 'scroll_depth',
-                        'scroll_percentage': mark,
-                        'page_type': 'home'
+                    gtag('event', 'scroll_depth', {
+                        scroll_percentage: mark,
+                        page_type: 'home'
                     });
                 }
             });
@@ -68,11 +62,10 @@
             timeIntervals.forEach(function(interval) {
                 if (timeSpent >= interval && !timeTracked.includes(interval)) {
                     timeTracked.push(interval);
-                    dataLayer.push({
-                        'event': 'time_on_page',
-                        'time_seconds': interval,
-                        'page_type': 'home',
-                        'engagement_level': interval >= 120 ? 'high' : interval >= 60 ? 'medium' : 'low'
+                    gtag('event', 'time_on_page', {
+                        time_seconds: interval,
+                        page_type: 'home',
+                        engagement_level: interval >= 120 ? 'high' : interval >= 60 ? 'medium' : 'low'
                     });
                 }
             });
@@ -81,11 +74,10 @@
         // Tracking avant fermeture
         window.addEventListener('beforeunload', function() {
             let totalTime = Math.floor((Date.now() - startTime) / 1000);
-            dataLayer.push({
-                'event': 'page_exit',
-                'time_spent_seconds': totalTime,
-                'max_scroll': Math.max(...scrollTracked) || 0,
-                'page_type': 'home'
+            gtag('event', 'page_exit', {
+                time_spent_seconds: totalTime,
+                max_scroll: Math.max(...scrollTracked) || 0,
+                page_type: 'home'
             });
         });
         
@@ -93,12 +85,10 @@
             // Tracking clics sur boutons CTA
             document.querySelectorAll('.btn, .cta-button, [class*="btn"], a[href*="product"]').forEach(function(btn) {
                 btn.addEventListener('click', function(e) {
-                    dataLayer.push({
-                        'event': 'cta_click',
-                        'click_text': this.textContent.trim().substring(0, 50),
-                        'click_url': this.href || 'button',
-                        'click_location': 'home',
-                        'element_type': this.tagName.toLowerCase()
+                    gtag('event', 'cta_click', {
+                        click_text: this.textContent.trim().substring(0, 50),
+                        click_url: this.href || 'button',
+                        click_location: 'home'
                     });
                 });
             });
@@ -106,10 +96,9 @@
             // Tracking clics sur produits
             document.querySelectorAll('a[href*="product"]').forEach(function(link) {
                 link.addEventListener('click', function() {
-                    dataLayer.push({
-                        'event': 'product_interest',
-                        'product_clicked': this.href.includes('product-2') ? 'Vita C Collagen Cream' : 'PDRN Capsule Cream',
-                        'click_source': 'home'
+                    gtag('event', 'product_interest', {
+                        product_clicked: this.href.includes('product-2') ? 'Vita C Collagen Cream' : 'PDRN Capsule Cream',
+                        click_source: 'home'
                     });
                 });
             });
@@ -118,22 +107,20 @@
             document.querySelectorAll('a[href^="http"]').forEach(function(link) {
                 if (!link.href.includes(window.location.hostname)) {
                     link.addEventListener('click', function() {
-                        dataLayer.push({
-                            'event': 'outbound_click',
-                            'outbound_url': this.href
+                        gtag('event', 'outbound_click', {
+                            outbound_url: this.href
                         });
                     });
                 }
             });
             
-            // Tracking visibilité des sections (quelles sections voient les utilisateurs)
+            // Tracking visibilité des sections
             const sections = document.querySelectorAll('section, .hero, .products, .testimonials, .about');
             const sectionObserver = new IntersectionObserver(function(entries) {
                 entries.forEach(function(entry) {
                     if (entry.isIntersecting) {
-                        dataLayer.push({
-                            'event': 'section_viewed',
-                            'section_name': entry.target.className || entry.target.id || 'unnamed_section'
+                        gtag('event', 'section_viewed', {
+                            section_name: entry.target.className || entry.target.id || 'unnamed_section'
                         });
                     }
                 });
@@ -141,11 +128,10 @@
             sections.forEach(function(section) { sectionObserver.observe(section); });
             
             // Détection appareil et résolution
-            dataLayer.push({
-                'event': 'device_info',
-                'device_type': /Mobile|Android|iPhone/i.test(navigator.userAgent) ? 'mobile' : 'desktop',
-                'screen_width': window.innerWidth,
-                'screen_height': window.innerHeight
+            gtag('event', 'device_info', {
+                device_type: /Mobile|Android|iPhone/i.test(navigator.userAgent) ? 'mobile' : 'desktop',
+                screen_width: window.innerWidth,
+                screen_height: window.innerHeight
             });
         });
     </script>

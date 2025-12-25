@@ -19,7 +19,6 @@
     
     <!-- Conversion & Purchase Tracking -->
     <script>
-        window.dataLayer = window.dataLayer || [];
         const urlParams = new URLSearchParams(window.location.search);
         const orderId = urlParams.get('order_id') || 'ORDER-' + Date.now();
         const orderValue = parseFloat(urlParams.get('value')) || 34.90;
@@ -27,49 +26,43 @@
         const itemId = urlParams.get('item_id') || 'NYVEX-PRODUCT';
         
         // Événement d'achat GA4 E-commerce
-        dataLayer.push({
-            'event': 'purchase',
-            'ecommerce': {
-                'transaction_id': orderId,
-                'value': orderValue,
-                'currency': 'EUR',
-                'tax': orderValue * 0.20,
-                'shipping': 0,
-                'items': [{
-                    'item_id': itemId,
-                    'item_name': productName,
-                    'item_brand': 'NYVEX',
-                    'item_category': 'Soins Visage',
-                    'price': orderValue,
-                    'quantity': 1
-                }]
-            }
+        gtag('event', 'purchase', {
+            transaction_id: orderId,
+            value: orderValue,
+            currency: 'EUR',
+            tax: orderValue * 0.20,
+            shipping: 0,
+            items: [{
+                item_id: itemId,
+                item_name: productName,
+                item_brand: 'NYVEX',
+                item_category: 'Soins Visage',
+                price: orderValue,
+                quantity: 1
+            }]
         });
         
         // Conversion complète
-        dataLayer.push({
-            'event': 'conversion_complete',
-            'transaction_id': orderId,
-            'value': orderValue,
-            'currency': 'EUR',
-            'conversion_type': 'purchase'
+        gtag('event', 'conversion_complete', {
+            transaction_id: orderId,
+            value: orderValue,
+            currency: 'EUR',
+            conversion_type: 'purchase'
         });
         
         // Nouveau client
-        dataLayer.push({
-            'event': 'new_customer',
-            'customer_value': orderValue,
-            'first_purchase_date': new Date().toISOString().split('T')[0],
-            'product_purchased': productName
+        gtag('event', 'new_customer', {
+            customer_value: orderValue,
+            first_purchase_date: new Date().toISOString().split('T')[0],
+            product_purchased: productName
         });
         
         // Tracking source d'acquisition
         const utmSource = sessionStorage.getItem('utm_source') || 'direct';
-        dataLayer.push({
-            'event': 'purchase_attribution',
-            'order_id': orderId,
-            'source': utmSource,
-            'value': orderValue
+        gtag('event', 'purchase_attribution', {
+            order_id: orderId,
+            source: utmSource,
+            value: orderValue
         });
         
         // Marquer comme client
