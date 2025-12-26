@@ -1,0 +1,6 @@
+# NYVEX Security Contact
+# If you discover a security vulnerability, please contact us.
+
+Contact: mailto:contact@nyvex.fr
+Preferred-Languages: fr, en
+Canonical: https://nyvex.fr/.well-known/security.txt

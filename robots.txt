@@ -1,22 +1,56 @@
 # Robots.txt pour NYVEX.fr
+# Optimisé pour le SEO
+
 User-agent: *
 Allow: /
 
 # Sitemap
 Sitemap: https://nyvex.fr/sitemap.xml
 
-# Pages importantes
+# Pages importantes - Priorité haute
 Allow: /index.html
 Allow: /product.html
 Allow: /product-2.html
+Allow: /blog.html
 Allow: /faq.html
 Allow: /contact.html
 
+# Pages secondaires
+Allow: /livraison.html
+Allow: /retours.html
+Allow: /terms.html
+Allow: /confidentialite.html
+
 # Ressources
 Allow: /assets/
+Allow: /manifest.json
 
 # Bloquer les fichiers non nécessaires au référencement
 Disallow: /merci.html
 
-# Crawl-delay pour être gentil avec les serveurs
+# Google spécifique
+User-agent: Googlebot
+Allow: /
 Crawl-delay: 1
+
+# Googlebot Images
+User-agent: Googlebot-Image
+Allow: /assets/images/
+
+# Bing
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Social Media Crawlers
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: Pinterest
+Allow: /

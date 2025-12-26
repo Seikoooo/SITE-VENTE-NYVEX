@@ -1,0 +1,44 @@
+{
+    "name": "NYVEX - Cosmétiques K-Beauty",
+    "short_name": "NYVEX",
+    "description": "Boutique de cosmétiques K-Beauty premium. Crèmes anti-âge coréennes PDRN et Vitamine C. Livraison offerte en France.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#4db3a0",
+    "orientation": "portrait-primary",
+    "scope": "/",
+    "lang": "fr-FR",
+    "categories": ["beauty", "shopping", "lifestyle"],
+    "icons": [
+        {
+            "src": "/assets/favicon/599199188_836603852702225_4017117236872249230_n.jpg",
+            "sizes": "192x192",
+            "type": "image/jpeg",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/assets/favicon/599199188_836603852702225_4017117236872249230_n.jpg",
+            "sizes": "512x512",
+            "type": "image/jpeg",
+            "purpose": "any maskable"
+        }
+    ],
+    "screenshots": [],
+    "shortcuts": [
+        {
+            "name": "PDRN Capsule Cream",
+            "short_name": "PDRN Cream",
+            "description": "Crème anti-âge coréenne PDRN",
+            "url": "/product.html",
+            "icons": [{"src": "/assets/favicon/599199188_836603852702225_4017117236872249230_n.jpg", "sizes": "192x192"}]
+        },
+        {
+            "name": "Vita C Collagen Cream",
+            "short_name": "Vita C Cream",
+            "description": "Crème Vitamine C anti-rides",
+            "url": "/product-2.html",
+            "icons": [{"src": "/assets/favicon/599199188_836603852702225_4017117236872249230_n.jpg", "sizes": "192x192"}]
+        }
+    ]
+}
