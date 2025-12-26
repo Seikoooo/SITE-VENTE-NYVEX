@@ -62,6 +62,30 @@
         <priority>0.8</priority>
     </url>
     
+    <!-- Article Blog: Guide PDRN Complet -->
+    <url>
+        <loc>https://nyvex.fr/blog-pdrn-guide-complet.html</loc>
+        <lastmod>2024-12-26</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <!-- Article Blog: Routine K-Beauty -->
+    <url>
+        <loc>https://nyvex.fr/blog-routine-kbeauty.html</loc>
+        <lastmod>2024-12-26</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <!-- Article Blog: Vitamine C -->
+    <url>
+        <loc>https://nyvex.fr/blog-vitamine-c-peau.html</loc>
+        <lastmod>2024-12-26</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
     <!-- FAQ -->
     <url>
         <loc>https://nyvex.fr/faq.html</loc>
