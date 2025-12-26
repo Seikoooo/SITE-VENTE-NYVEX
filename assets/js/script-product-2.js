@@ -13,17 +13,14 @@ const mainImage = document.querySelector('.main-image img');
 // Cart Drawer Elements
 const cartDrawer = document.getElementById('cartDrawer');
 const cartOverlay = document.getElementById('cartOverlay');
-const cartCloseBtn = document.getElementById('cartCloseBtn');
+const cartCloseBtn = document.getElementById('cartClose');
 const cartDrawerContent = document.getElementById('cartDrawerContent');
 const cartTotalPrice = document.getElementById('cartTotalPrice');
-const shippingText = document.getElementById('shippingText');
-const shippingBarFill = document.getElementById('shippingBarFill');
 const checkoutBtn = document.getElementById('checkoutBtn');
 const stickyAddToCart = document.querySelector('.sticky-add-to-cart');
 
 // ===== CART FUNCTIONALITY =====
 let cart = [];
-const FREE_SHIPPING_THRESHOLD = 49;
 
 function openCartDrawer() {
     cartDrawer.classList.add('active');
@@ -54,7 +51,6 @@ function getCartTotal() {
 function renderCartDrawer() {
     const total = getCartTotal();
     
-    // Render cart items
     if (cart.length === 0) {
         cartDrawerContent.innerHTML = `
             <div class="cart-empty">
@@ -66,7 +62,7 @@ function renderCartDrawer() {
         cartDrawerContent.innerHTML = cart.map(item => `
             <div class="cart-item" data-id="${item.id}">
                 <div class="cart-item-image">
-                    <img src="https://infinitekorea.fr/wp-content/uploads/2025/10/vt-pdrn-capsule-cream-100-50ml-713.jpg" alt="${item.name}">
+                    <img src="${item.image}" alt="${item.name}">
                 </div>
                 <div class="cart-item-details">
                     <a href="#" class="cart-item-name">${item.name}</a>
@@ -86,7 +82,6 @@ function renderCartDrawer() {
             </div>
         `).join('');
         
-        // Add event listeners to cart item buttons
         cartDrawerContent.querySelectorAll('.cart-qty-btn.minus').forEach(btn => {
             btn.addEventListener('click', () => updateCartItemQuantity(parseInt(btn.dataset.id), -1));
         });
@@ -98,19 +93,7 @@ function renderCartDrawer() {
         });
     }
     
-    // Update total
     cartTotalPrice.textContent = `${total.toFixed(2).replace('.', ',')} EUR €`;
-    
-    // Update free shipping progress
-    const remaining = Math.max(0, FREE_SHIPPING_THRESHOLD - total);
-    const progress = Math.min(100, (total / FREE_SHIPPING_THRESHOLD) * 100);
-    
-    if (remaining > 0) {
-        shippingText.innerHTML = `PLUS QUE <strong>${remaining.toFixed(2).replace('.', ',')}€</strong> POUR LA LIVRAISON OFFERTE`;
-    } else {
-        shippingText.innerHTML = `🎉 <strong>LIVRAISON OFFERTE !</strong>`;
-    }
-    shippingBarFill.style.width = `${progress}%`;
 }
 
 function updateCartItemQuantity(itemId, change) {
@@ -132,7 +115,7 @@ function removeCartItem(itemId) {
     renderCartDrawer();
 }
 
-function addToCart(productId, productName, productPrice, quantity = 1) {
+function addToCart(productId, productName, productPrice, quantity = 1, productImage = '') {
     const existingItem = cart.find(item => item.id === productId);
     
     if (existingItem) {
@@ -142,7 +125,8 @@ function addToCart(productId, productName, productPrice, quantity = 1) {
             id: productId, 
             name: productName,
             price: productPrice,
-            quantity: quantity 
+            quantity: quantity,
+            image: productImage
         });
     }
     
@@ -155,18 +139,18 @@ if (cartCloseBtn) cartCloseBtn.addEventListener('click', closeCartDrawer);
 if (cartOverlay) cartOverlay.addEventListener('click', closeCartDrawer);
 if (cartBtn) cartBtn.addEventListener('click', openCartDrawer);
 
-// Main add to cart button
+// Main add to cart button - PRODUCT 2: Vita C Collagen Cream
 if (addToCartBtn) {
     addToCartBtn.addEventListener('click', () => {
         const quantity = parseInt(qtyInput?.value || 1);
-        addToCart(1, 'PDRN Capsule Cream 100', 34.99, quantity);
+        addToCart(2, 'Vita C Collagen Cream', 39.99, quantity, 'assets/images/produit%202/S0f86d7e353f6494e8389df31299e6eb5a.jpg_960x960q75.jpg_.png');
     });
 }
 
 // Sticky add to cart button
 if (stickyAddToCart) {
     stickyAddToCart.addEventListener('click', () => {
-        addToCart(1, 'PDRN Capsule Cream 100', 34.99, 1);
+        addToCart(2, 'Vita C Collagen Cream', 39.99, 1, 'assets/images/produit%202/S0f86d7e353f6494e8389df31299e6eb5a.jpg_960x960q75.jpg_.png');
     });
 }
 
@@ -175,7 +159,6 @@ if (checkoutBtn) {
     checkoutBtn.addEventListener('click', () => {
         if (cart.length > 0) {
             alert('Redirection vers le paiement...');
-            // Here you would redirect to your checkout page
         }
     });
 }
@@ -210,23 +193,20 @@ if (qtyMinusBtn && qtyPlusBtn && qtyInput) {
 function updateAddToCartPrice() {
     if (addToCartBtn && qtyInput) {
         const quantity = parseInt(qtyInput.value);
-        const price = (34.99 * quantity).toFixed(2).replace('.', ',');
-        addToCartBtn.textContent = `Ajouter au panier  ${price}�`;
+        const price = (39.99 * quantity).toFixed(2).replace('.', ',');
+        addToCartBtn.textContent = `🛒 Ajouter au panier — ${price}€`;
     }
 }
 
 // ===== THUMBNAIL GALLERY =====
 const mainProductImage = document.getElementById('mainProductImage');
 const mainProductVideo = document.getElementById('mainProductVideo');
-const mainImageContainer = document.querySelector('.main-image');
-let galleryLoopInterval = null;
 let currentThumbnailIndex = 0;
 
 function showThumbnail(index) {
     const allThumbnails = document.querySelectorAll('.thumbnail');
     if (allThumbnails.length === 0) return;
     
-    // Wrap around
     if (index >= allThumbnails.length) index = 0;
     if (index < 0) index = allThumbnails.length - 1;
     currentThumbnailIndex = index;
@@ -257,29 +237,8 @@ function showThumbnail(index) {
     }
 }
 
-function startGalleryLoop() {
-    if (galleryLoopInterval) return;
-    galleryLoopInterval = setInterval(() => {
-        showThumbnail(currentThumbnailIndex + 1);
-    }, 1500); // Change image every 1.5 seconds
-}
-
-function stopGalleryLoop() {
-    if (galleryLoopInterval) {
-        clearInterval(galleryLoopInterval);
-        galleryLoopInterval = null;
-    }
-}
-
-// Hover on main image to start loop
-if (mainImageContainer) {
-    mainImageContainer.addEventListener('mouseenter', startGalleryLoop);
-    mainImageContainer.addEventListener('mouseleave', stopGalleryLoop);
-}
-
 thumbnails.forEach((thumbnail, index) => {
     thumbnail.addEventListener('click', () => {
-        stopGalleryLoop();
         showThumbnail(index);
     });
 });
@@ -294,7 +253,6 @@ if (mobileMenuBtn && navLinks) {
         document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
     });
     
-    // Toggle dropdown on mobile
     const navDropdown = navLinks.querySelector('.nav-dropdown');
     const dropdownTrigger = navLinks.querySelector('.nav-dropdown-trigger');
     
@@ -307,7 +265,6 @@ if (mobileMenuBtn && navLinks) {
         });
     }
     
-    // Close menu when clicking a link (but not dropdown trigger)
     navLinks.querySelectorAll('a:not(.nav-dropdown-trigger)').forEach(link => {
         link.addEventListener('click', () => {
             mobileMenuBtn.classList.remove('active');
@@ -347,59 +304,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// ===== NEWSLETTER FORM =====
-const newsletterForm = document.querySelector('.newsletter-form');
-if (newsletterForm) {
-    newsletterForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const emailInput = newsletterForm.querySelector('input[type="email"]');
-        const submitBtn = newsletterForm.querySelector('button');
-        
-        if (emailInput.value) {
-            const originalText = submitBtn.textContent;
-            submitBtn.textContent = ' Inscrit !';
-            submitBtn.style.background = '#4db3a0';
-            emailInput.value = '';
-            
-            setTimeout(() => {
-                submitBtn.textContent = originalText;
-                submitBtn.style.background = '';
-            }, 3000);
-        }
-    });
-}
-
-// ===== SALES NOTIFICATIONS =====
-const salesNotification = document.getElementById('salesNotification');
-if (salesNotification) {
-    const buyers = [
-        { name: 'Marie de Paris', action: "vient d'acheter ce produit" },
-        { name: 'Sophie de Lyon', action: "vient d'acheter ce produit" },
-        { name: 'Emma de Marseille', action: "vient d'acheter ce produit" },
-        { name: 'Julie de Bordeaux', action: "vient d'acheter ce produit" },
-        { name: 'Camille de Toulouse', action: "vient d'acheter ce produit" },
-        { name: 'Léa de Nice', action: "vient d'acheter ce produit" },
-        { name: 'Chloé de Nantes', action: "vient d'acheter ce produit" }
-    ];
-    let buyerIndex = 0;
-
-    function showNotification() {
-        const buyer = buyers[buyerIndex];
-        salesNotification.querySelector('.notification-name').textContent = buyer.name;
-        salesNotification.querySelector('.notification-action').textContent = buyer.action;
-        salesNotification.classList.add('show');
-        
-        setTimeout(() => {
-            salesNotification.classList.remove('show');
-        }, 5000);
-        
-        buyerIndex = (buyerIndex + 1) % buyers.length;
-    }
-    
-    setTimeout(showNotification, 8000);
-    setInterval(showNotification, 35000);
-}
-
 // ===== INTERSECTION OBSERVER FOR ANIMATIONS =====
 const observerOptions = {
     threshold: 0.1,
@@ -415,7 +319,6 @@ const observer = new IntersectionObserver((entries) => {
     });
 }, observerOptions);
 
-// Observe elements for animation
 document.querySelectorAll('.feature-card, .ingredient-card, .testimonial-card, .routine-step').forEach(el => {
     observer.observe(el);
 });
@@ -428,7 +331,6 @@ if (stickyCta && productSection) {
     window.addEventListener('scroll', () => {
         const productRect = productSection.getBoundingClientRect();
         
-        // Show sticky CTA when product section is out of view on mobile
         if (window.innerWidth <= 968) {
             if (productRect.bottom < 0 || productRect.top > window.innerHeight) {
                 stickyCta.style.transform = 'translateY(0)';
@@ -438,7 +340,6 @@ if (stickyCta && productSection) {
         }
     });
     
-    // Add click handler for sticky CTA button
     const stickyBtn = stickyCta.querySelector('.btn');
     if (stickyBtn) {
         stickyBtn.addEventListener('click', () => {
@@ -447,74 +348,7 @@ if (stickyCta && productSection) {
     }
 }
 
-// ===== PROMO POPUP =====
-const promoPopup = document.getElementById('promoPopup');
-const promoOverlay = document.getElementById('promoOverlay');
-const promoClose = document.getElementById('promoClose');
-const copyBtn = document.getElementById('copyBtn');
-const promoCode = document.getElementById('promoCode');
-
-function showPromoPopup() {
-    if (promoPopup && promoOverlay) {
-        // Check if popup was already shown in this session
-        if (localStorage.getItem('promoShown')) return;
-        
-        promoPopup.classList.add('active');
-        promoOverlay.classList.add('active');
-        document.body.style.overflow = 'hidden';
-        localStorage.setItem('promoShown', 'true');
-    }
-}
-
-// Make closePromoPopup global for onclick
-window.closePromoPopup = function() {
-    if (promoPopup && promoOverlay) {
-        promoPopup.classList.remove('active');
-        promoOverlay.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-}
-
-// Show popup after 12 seconds on page or when user scrolls 50% of page
-if (promoPopup) {
-    let promoShown = false;
-    
-    // Time-based trigger (12 seconds)
-    setTimeout(() => {
-        if (!promoShown && !localStorage.getItem('promoShown')) {
-            promoShown = true;
-            showPromoPopup();
-        }
-    }, 12000);
-    
-    // Scroll-based trigger (50% of page)
-    window.addEventListener('scroll', () => {
-        const scrollPercent = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
-        if (scrollPercent > 50 && !promoShown && !localStorage.getItem('promoShown')) {
-            promoShown = true;
-            showPromoPopup();
-        }
-    });
-}
-
-if (promoClose) promoClose.addEventListener('click', window.closePromoPopup);
-if (promoOverlay) promoOverlay.addEventListener('click', window.closePromoPopup);
-
-// Copy promo code
-if (copyBtn && promoCode) {
-    copyBtn.addEventListener('click', () => {
-        navigator.clipboard.writeText(promoCode.textContent).then(() => {
-            copyBtn.textContent = 'Copié !';
-            copyBtn.style.background = '#27ae60';
-            setTimeout(() => {
-                copyBtn.textContent = 'Copier';
-                copyBtn.style.background = '';
-            }, 2000);
-        });
-    });
-}
-
-// ===== PRELOADER (Optional) =====
+// ===== PRELOADER =====
 window.addEventListener('load', () => {
     document.body.classList.add('loaded');
 });
@@ -594,9 +428,101 @@ document.querySelectorAll('.accordion-header').forEach(header => {
 });
 
 // ===== CONSOLE BRANDING =====
-console.log('%cNYVEX', 'font-size: 48px; font-family: serif; font-weight: bold; color: #4db3a0;');
-console.log('%cTeint Glassy - Glass Skin', 'font-size: 14px; color: #6b6b6b;');
+console.log('%cNYVEX', 'font-size: 48px; font-family: serif; font-weight: bold; color: #d4a853;');
+console.log('%cVita C Collagen Cream - Anti-Rides', 'font-size: 14px; color: #6b6b6b;');
 
+// ===== REVIEW FORM =====
+function toggleReviewForm() {
+    const container = document.getElementById('reviewFormContainer');
+    if (container) {
+        if (container.style.display === 'none') {
+            container.style.display = 'block';
+            container.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+            container.style.display = 'none';
+        }
+    }
+}
+
+function previewPhoto(input) {
+    const preview = document.getElementById('photoPreview');
+    const placeholder = document.getElementById('uploadPlaceholder');
+    const previewImg = document.getElementById('previewImg');
+    
+    if (input.files && input.files[0]) {
+        const file = input.files[0];
+        
+        // Vérifier la taille (max 5MB)
+        if (file.size > 5 * 1024 * 1024) {
+            alert('La photo est trop volumineuse. Maximum 5MB.');
+            input.value = '';
+            return;
+        }
+        
+        // Vérifier le type
+        if (!file.type.startsWith('image/')) {
+            alert('Veuillez sélectionner une image valide.');
+            input.value = '';
+            return;
+        }
+        
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            previewImg.src = e.target.result;
+            preview.style.display = 'block';
+            placeholder.style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+function removePhoto() {
+    const input = document.getElementById('reviewPhoto');
+    const preview = document.getElementById('photoPreview');
+    const placeholder = document.getElementById('uploadPlaceholder');
+    
+    input.value = '';
+    preview.style.display = 'none';
+    placeholder.style.display = 'flex';
+}
+
+function validateReviewForm(event) {
+    const orderNumber = document.getElementById('orderNumber').value.trim();
+    const reviewText = document.getElementById('reviewText').value.trim();
+    const rating = document.querySelector('input[name="rating"]:checked');
+    
+    // Vérifier le numéro de commande
+    if (orderNumber.length < 5) {
+        alert('Veuillez entrer un numéro de commande ou de suivi valide.');
+        event.preventDefault();
+        return false;
+    }
+    
+    // Vérifier la note
+    if (!rating) {
+        alert('Veuillez sélectionner une note.');
+        event.preventDefault();
+        return false;
+    }
+    
+    // Vérifier l'avis
+    if (reviewText.length < 20) {
+        alert('Votre avis doit contenir au moins 20 caractères.');
+        event.preventDefault();
+        return false;
+    }
+    
+    // Google Analytics event
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'review_submitted', {
+            rating: rating.value,
+            order_number: orderNumber.substring(0, 3) + '***',
+            has_photo: document.getElementById('reviewPhoto').files.length > 0 ? 'yes' : 'no'
+        });
+    }
+    
+    return true;
+}
 
 
 

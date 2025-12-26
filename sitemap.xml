@@ -22,7 +22,7 @@
     
     <!-- Produit 1 : PDRN Capsule Cream -->
     <url>
-        <loc>https://nyvex.fr/product.html</loc>
+        <loc>https://nyvex.fr/pages/product.html</loc>
         <lastmod>2024-12-26</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
@@ -43,7 +43,7 @@
     
     <!-- Produit 2 : Vita C Collagen Cream -->
     <url>
-        <loc>https://nyvex.fr/product-2.html</loc>
+        <loc>https://nyvex.fr/pages/product-2.html</loc>
         <lastmod>2024-12-26</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
@@ -56,7 +56,7 @@
     
     <!-- Blog K-Beauty -->
     <url>
-        <loc>https://nyvex.fr/blog.html</loc>
+        <loc>https://nyvex.fr/pages/blog.html</loc>
         <lastmod>2024-12-26</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
@@ -64,7 +64,7 @@
     
     <!-- Article Blog: Guide PDRN Complet -->
     <url>
-        <loc>https://nyvex.fr/blog-pdrn-guide-complet.html</loc>
+        <loc>https://nyvex.fr/pages/blog-pdrn-guide-complet.html</loc>
         <lastmod>2024-12-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -72,7 +72,7 @@
     
     <!-- Article Blog: Routine K-Beauty -->
     <url>
-        <loc>https://nyvex.fr/blog-routine-kbeauty.html</loc>
+        <loc>https://nyvex.fr/pages/blog-routine-kbeauty.html</loc>
         <lastmod>2024-12-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -80,7 +80,7 @@
     
     <!-- Article Blog: Vitamine C -->
     <url>
-        <loc>https://nyvex.fr/blog-vitamine-c-peau.html</loc>
+        <loc>https://nyvex.fr/pages/blog-vitamine-c-peau.html</loc>
         <lastmod>2024-12-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
@@ -88,7 +88,7 @@
     
     <!-- FAQ -->
     <url>
-        <loc>https://nyvex.fr/faq.html</loc>
+        <loc>https://nyvex.fr/pages/faq.html</loc>
         <lastmod>2024-12-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
@@ -96,7 +96,7 @@
     
     <!-- Contact -->
     <url>
-        <loc>https://nyvex.fr/contact.html</loc>
+        <loc>https://nyvex.fr/pages/contact.html</loc>
         <lastmod>2024-12-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
@@ -104,7 +104,7 @@
     
     <!-- Livraison -->
     <url>
-        <loc>https://nyvex.fr/livraison.html</loc>
+        <loc>https://nyvex.fr/pages/livraison.html</loc>
         <lastmod>2024-12-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
@@ -112,7 +112,7 @@
     
     <!-- Retours -->
     <url>
-        <loc>https://nyvex.fr/retours.html</loc>
+        <loc>https://nyvex.fr/pages/retours.html</loc>
         <lastmod>2024-12-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.5</priority>
@@ -120,7 +120,7 @@
     
     <!-- Conditions générales -->
     <url>
-        <loc>https://nyvex.fr/terms.html</loc>
+        <loc>https://nyvex.fr/pages/terms.html</loc>
         <lastmod>2024-12-26</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.3</priority>
@@ -128,10 +128,11 @@
     
     <!-- Politique de confidentialité -->
     <url>
-        <loc>https://nyvex.fr/confidentialite.html</loc>
+        <loc>https://nyvex.fr/pages/confidentialite.html</loc>
         <lastmod>2024-12-26</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.3</priority>
     </url>
     
 </urlset>
+

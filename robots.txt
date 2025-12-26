@@ -9,17 +9,17 @@ Sitemap: https://nyvex.fr/sitemap.xml
 
 # Pages importantes - Priorité haute
 Allow: /index.html
-Allow: /product.html
-Allow: /product-2.html
-Allow: /blog.html
-Allow: /faq.html
-Allow: /contact.html
+Allow: /pages/product.html
+Allow: /pages/product-2.html
+Allow: /pages/blog.html
+Allow: /pages/faq.html
+Allow: /pages/contact.html
 
 # Pages secondaires
-Allow: /livraison.html
-Allow: /retours.html
-Allow: /terms.html
-Allow: /confidentialite.html
+Allow: /pages/livraison.html
+Allow: /pages/retours.html
+Allow: /pages/terms.html
+Allow: /pages/confidentialite.html
 
 # Ressources
 Allow: /assets/
@@ -54,3 +54,4 @@ Allow: /
 
 User-agent: Pinterest
 Allow: /
+
