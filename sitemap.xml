@@ -134,5 +134,41 @@
         <priority>0.3</priority>
     </url>
     
+    <!-- NOUVEAUX ARTICLES BLOG 2025 -->
+    <url>
+        <loc>https://nyvex.fr/pages/blog-pdrn-vs-retinol.html</loc>
+        <lastmod>2025-12-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://nyvex.fr/pages/blog-meilleures-cremes-coreennes-2025.html</loc>
+        <lastmod>2025-12-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://nyvex.fr/pages/blog-routine-glass-skin-7-etapes.html</loc>
+        <lastmod>2025-12-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://nyvex.fr/pages/blog-bienfaits-vitamine-c-visage.html</loc>
+        <lastmod>2025-12-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
+        <loc>https://nyvex.fr/pages/blog-kbeauty-debutant-guide.html</loc>
+        <lastmod>2025-12-30</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
 </urlset>
 
